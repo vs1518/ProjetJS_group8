@@ -1,18 +1,12 @@
-//Ces routes appellent les fonctions du contrôleur (registerUser et loginUser)
-
 const express = require('express');
+const { registerUser, loginUser } = require('../controllers/userController'); // Importer les fonctions du contrôleur
 
-// Ensure that this import is correct
-const { registerUser, loginUser } = require('../controllers/userController'); 
+const router = express.Router(); // Crée un routeur Express
 
-const router = express.Router();
-
-// POST route for registration
+// Route POST pour l'enregistrement
 router.post('/register', registerUser);
 
-// POST route for login
+// Route POST pour la connexion
 router.post('/login', loginUser);
 
-module.exports = router;
-
-
+module.exports = router; // Exporte le routeur

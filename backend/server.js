@@ -1,33 +1,31 @@
-// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes'); // Vérifie le chemin
 
-// Load environment variables
+// Charger les variables d'environnement
 dotenv.config();
 
-// Initialize Express app (must be done first)
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware (must be added after app initialization)
+// Middleware
 app.use(express.json());
-app.use(cors());
 
-// Use user routes for /api/users path
-app.use('/api/users', userRoutes);
+// Utiliser les routes
+app.use('/auth', userRoutes); // Toutes les routes seront accessibles via /auth
 
-// Connect to MongoDB
+// Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB connected"))
-    .catch((err) => console.error("Error connecting to MongoDB:", err));
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch((err) => console.error('MongoDB connection error:', err));
 
-// Define a test route
+// Route de test
 app.get('/', (req, res) => {
-    res.send('API is working...');
+    res.send('API is running...');
 });
 
-// Start the server (must be done at the end)
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// Démarrer le serveur
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

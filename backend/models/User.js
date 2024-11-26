@@ -1,5 +1,3 @@
-//Ce modèle sera utilisé pour enregistrer les utilisateurs et gérer leurs données dans la base MongoDB.
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -12,11 +10,10 @@ const UserSchema = new mongoose.Schema({
 
 // Hasher le mot de passe avant de sauvegarder
 UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
+    if (!this.isModified('password')) return next(); // Si le mot de passe n'est pas modifié, on continue
+    this.password = await bcrypt.hash(this.password, 10); // Hachage du mot de passe
+    next(); // On continue la sauvegarde
 });
 
+// Exporter le modèle utilisateur
 module.exports = mongoose.model('User', UserSchema);
-
-
